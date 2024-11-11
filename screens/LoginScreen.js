@@ -10,7 +10,7 @@ export default function LoginScreen() {
 
   const handleLogin = () => {
     if (!email || !password) {
-      setErrorMessage('Email dan password harus diisi');
+      setErrorMessage('Email dan Password Harus Diisi');
     } else {
       setErrorMessage('');
       console.log('Email:', email);
@@ -22,7 +22,7 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>ReFind</Text>
 
       {errorMessage ? (
         <Text style={styles.errorText}>{errorMessage}</Text>
@@ -60,26 +60,29 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 70,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 50,
+    color: '#0F254F', // Menambahkan gap lebih kecil antara judul dan input
+    // marginTop: 1,
   },
   input: {
     width: '100%',
     height: 50,
     borderColor: '#ccc',
     borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
+    borderRadius: 15,
+    paddingHorizontal: 20,
     marginBottom: 15,
   },
   button: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#007bff',
+    width: '50%',
+    height: 40,
+    backgroundColor: '#0F254F',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 5,
+    borderRadius: 15,
+    marginTop: 30, // Menambahkan marginTop untuk memberi jarak antara input dan tombol
   },
   buttonText: {
     color: '#fff',
