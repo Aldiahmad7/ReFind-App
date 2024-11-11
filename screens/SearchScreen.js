@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 export default function SearchScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>This is the Search Screen</Text>
+      <Text style={styles.text}>Search</Text>
     </View>
   );
 }
@@ -12,10 +12,13 @@ export default function SearchScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'top',
+    alignItems: 'left',
+    marginTop: 50,
+    marginLeft: 20,
   },
   text: {
-    fontSize: 18,
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });

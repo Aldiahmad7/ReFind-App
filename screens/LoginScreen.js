@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     fontSize: 70,
     fontWeight: 'bold',
     marginBottom: 50,
-    color: '#0F254F', // Menambahkan gap lebih kecil antara judul dan input
+    color: '#0F254F',
     // marginTop: 1,
   },
   input: {

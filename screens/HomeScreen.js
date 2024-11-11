@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome to the Home Screen!</Text>
+      <Text style={styles.text}>Home</Text>
     </View>
   );
 }
@@ -12,10 +12,13 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'top',
+    alignItems: 'left',
+    marginTop: 50,
+    marginLeft: 20,
   },
   text: {
-    fontSize: 18,
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });
