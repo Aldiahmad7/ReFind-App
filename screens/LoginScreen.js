@@ -16,7 +16,7 @@ export default function LoginScreen() {
       console.log('Email:', email);
       console.log('Password:', password);
 
-      navigation.navigate('HomeTabs'); // Navigasi ke HomeTabs setelah login
+      navigation.navigate('HomeTabs');
     }
   };
 
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 15,
-    marginTop: 30, // Menambahkan marginTop untuk memberi jarak antara input dan tombol
+    marginTop: 30,
   },
   buttonText: {
     color: '#fff',

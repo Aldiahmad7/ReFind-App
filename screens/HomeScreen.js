@@ -31,13 +31,9 @@ export default function HomeScreen() {
           <Text style={styles.buttonText}>Found Item</Text>
         </TouchableOpacity>
       </View>
-
-      {/* Modal for Lost Item */}
       <Modal isVisible={isLostModalVisible} onBackdropPress={() => setLostModalVisible(false)}>
         <LostItemForm onClose={() => setLostModalVisible(false)} />
       </Modal>
-
-      {/* Modal for Found Item */}
       <Modal isVisible={isFoundModalVisible} onBackdropPress={() => setFoundModalVisible(false)}>
         <FoundItemForm onClose={() => setFoundModalVisible(false)} />
       </Modal>
@@ -63,14 +59,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   welcomeContainer: {
-    backgroundColor: '#0F254F', // Background color of the shape
+    backgroundColor: '#0F254F', 
     paddingVertical: 5,
     paddingHorizontal: 30,
-    borderRadius: 15, // Rounded corners
+    borderRadius: 15, 
     alignItems: 'center',
     marginBottom: 20,
     marginTop: 70,
-    width: '90%', // Width of the shape
+    width: '90%', 
   },
   welcomeText: {
     fontSize: 40,

@@ -6,7 +6,6 @@ export default function ProfileScreen() {
   const navigation = useNavigation();
 
   const handleLogout = () => {
-    // Navigasi ke screen Login setelah logout
     navigation.navigate('Login');
   };
 
@@ -24,8 +23,8 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start', // Menjaga Profile tetap di atas
-    alignItems: 'flex-start', // Menjaga Profile tetap di kiri
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     marginTop: 50,
     marginLeft: 20,
   },
@@ -34,12 +33,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   button: {
-    position: 'absolute', // Posisi absolute agar bisa diposisikan secara spesifik
-    bottom: 20, // Jarak 30 dari bawah layar
-    left: '47%', // Menempatkan tombol di tengah horizontal layar
-    transform: [{ translateX: -75 }], // Menyeimbangkan tombol agar tepat di tengah
-    width: 150, // Lebar tombol
-    height: 40, // Tinggi tombol
+    position: 'absolute',
+    bottom: 20, 
+    left: '47%',
+    transform: [{ translateX: -75 }],
+    width: 150, 
+    height: 40, 
     backgroundColor: '#FF2626',
     paddingVertical: 10,
     paddingHorizontal: 30,
