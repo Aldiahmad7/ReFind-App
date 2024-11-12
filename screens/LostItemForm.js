@@ -10,7 +10,7 @@ export default function LostItemForm({ onClose }) {
       <TextInput style={styles.input} placeholder="Lokasi Terakhir" />
       <TextInput style={styles.input} placeholder="No. HP" />
       <TouchableOpacity style={styles.uploadButton}>
-        <Text>Upload File</Text>
+        <Text style={styles.uploadButtonText}>Upload File</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.submitButton} onPress={onClose}>
         <Text style={styles.submitButtonText}>SUBMIT</Text>
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#0F254F',
+    color: '#000000',
     textAlign: 'center',
     marginBottom: 10,
   },
@@ -40,8 +40,20 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   uploadButton: {
+    backgroundColor: '#ccc',
+    width: '40%',
+    height: 33,
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 20,
+    marginTop: 10,
+    left: 83,
+    borderRadius: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  uploadButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
   submitButton: {
     backgroundColor: '#4CAF50',

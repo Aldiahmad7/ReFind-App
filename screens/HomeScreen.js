@@ -11,9 +11,11 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.homeTitle}>Home</Text>
-      <Text style={styles.title}>Welcome!</Text>
-      <Text style={styles.subtitle}>"Bringing Lost Items Back to You"</Text>
-
+      <View style={styles.welcomeContainer}>
+        <Text style={styles.welcomeText}>Welcome!</Text>
+        <Text style={styles.subtitle}>"Bringing Lost Items Back to You"</Text>
+      </View>
+      <Text style={styles.title}>What Do You Want To Report?</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
@@ -60,15 +62,32 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  title: {
-    fontSize: 32,
+  welcomeContainer: {
+    backgroundColor: '#0F254F', // Background color of the shape
+    paddingVertical: 5,
+    paddingHorizontal: 30,
+    borderRadius: 15, // Rounded corners
+    alignItems: 'center',
+    marginBottom: 20,
+    marginTop: 70,
+    width: '90%', // Width of the shape
+  },
+  welcomeText: {
+    fontSize: 40,
     fontWeight: 'bold',
-    color: '#0F254F',
-    marginTop: 50, 
+    color: '#ffffff', 
+    marginTop: 8,
   },
   subtitle: {
     fontSize: 16,
-    marginBottom: 40,
+    marginTop: 18,
+    marginBottom: 23,
+    color: '#ffffff'
+  },
+  title:{
+    fontWeight:'bold',
+    fontSize: 18,
+    marginTop: 20,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -83,10 +102,11 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     backgroundColor: '#0F254F',
-    borderRadius: 15,
+    borderRadius: 30,
     marginHorizontal: 10,
   },
   buttonText: {
+    fontSize: 15,
     color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
