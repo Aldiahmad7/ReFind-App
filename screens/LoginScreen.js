@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-// import { initializeApp } from '@firebase/app';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/firebaseConfig';
-
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -16,17 +14,21 @@ export default function LoginScreen() {
     if (!email || !password) {
       setErrorMessage('Email dan Password Harus Diisi');
       return;
-    } try {
-    // Sign in using Firebase Authentication
+    }
+    try {
       await signInWithEmailAndPassword(auth, email, password);
-      // Navigasi ke halaman Home jika login berhasil
       navigation.navigate('HomeTabs');
-    //   setErrorMessage('');
-    //   console.log('Email:', email);
-    //   console.log('Password:', password);
-    //   navigation.navigate('HomeTabs');
+      setErrorMessage('');
     } catch (error) {
+      if (
+        error.code === 'auth/invalid-email' ||
+        error.code === 'auth/invalid-credential' ||
+        error.code === 'auth/too-many-requests'
+      ) {
+        setErrorMessage('Email atau password salah');
+      } else {
         setErrorMessage(error.message);
+      }
     }
   };
 
@@ -74,7 +76,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 50,
     color: '#0F254F',
-    // marginTop: 1,
   },
   input: {
     width: '100%',
