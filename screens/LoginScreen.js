@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+// import { initializeApp } from '@firebase/app';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase/firebaseConfig';
+
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -8,15 +12,21 @@ export default function LoginScreen() {
   const [errorMessage, setErrorMessage] = useState('');
   const navigation = useNavigation();
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!email || !password) {
       setErrorMessage('Email dan Password Harus Diisi');
-    } else {
-      setErrorMessage('');
-      console.log('Email:', email);
-      console.log('Password:', password);
-
+      return;
+    } try {
+    // Sign in using Firebase Authentication
+      await signInWithEmailAndPassword(auth, email, password);
+      // Navigasi ke halaman Home jika login berhasil
       navigation.navigate('HomeTabs');
+    //   setErrorMessage('');
+    //   console.log('Email:', email);
+    //   console.log('Password:', password);
+    //   navigation.navigate('HomeTabs');
+    } catch (error) {
+        setErrorMessage(error.message);
     }
   };
 
