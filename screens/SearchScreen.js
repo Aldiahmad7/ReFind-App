@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
-import tw from 'twrnc';  // Importing twrnc for styling
+import tw from 'twrnc';
 
 export default function SearchScreen() {
   const [selectedMenu, setSelectedMenu] = useState('Kehilangan');
