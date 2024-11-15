@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import Modal from 'react-native-modal';
 import LostItemForm from './LostItemForm';
 import FoundItemForm from './FoundItemForm';
-import Modal from 'react-native-modal';
 
 export default function HomeScreen() {
   const [isLostModalVisible, setLostModalVisible] = useState(false);
