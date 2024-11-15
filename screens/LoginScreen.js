@@ -11,16 +11,30 @@ export default function LoginScreen() {
   const [errorMessage, setErrorMessage] = useState('');
   const navigation = useNavigation();
 
+  // Tentukan email dan password admin
+  const adminEmail = "admin@example.com";   // Ganti dengan email admin yang valid di Firebase
+  const adminPassword = "adminpassword";    // Ganti dengan password admin yang valid di Firebase
+
   const handleLogin = async () => {
     if (!email || !password) {
       setErrorMessage('Email dan Password Harus Diisi');
       return;
     }
+
     try {
+      // Autentikasi dengan Firebase
       await signInWithEmailAndPassword(auth, email, password);
-      navigation.navigate('HomeTabs');
+
+      // Periksa apakah email dan password cocok dengan akun admin
+      if (email === adminEmail && password === adminPassword) {
+        navigation.navigate('AdminScreen'); // Arahkan ke halaman AdminScreen jika akun admin
+      } else {
+        navigation.navigate('HomeTabs'); // Arahkan ke halaman HomeTabs jika akun pengguna biasa
+      }
+
       setErrorMessage('');
     } catch (error) {
+      // Tangani kesalahan login
       if (
         error.code === 'auth/invalid-email' ||
         error.code === 'auth/invalid-credential' ||
@@ -47,10 +61,10 @@ export default function LoginScreen() {
       <Text style={tw`text-4xl font-bold text-[#0F254F] mb-12`}>ReFind</Text>
 
       <View style={tw`w-full`}>
-        <Text style={tw`text-gray-600 mb-2 text-base`}>Username</Text>
+        <Text style={tw`text-gray-600 mb-2 text-base`}>Email</Text>
         <TextInput
           style={tw`w-full h-12 bg-gray-100 rounded-lg px-4 mb-2`}
-          placeholder="Masukkan username"
+          placeholder="Masukkan email"
           value={email}
           onChangeText={setEmail}
         />
