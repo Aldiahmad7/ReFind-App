@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import tw from 'twrnc';
 
-export default function ProfileScreen() {
+export default function AdminProfileScreen() {
   const navigation = useNavigation();
 
   const handleLogout = () => {
@@ -13,8 +13,7 @@ export default function ProfileScreen() {
 
   return (
     <View style={tw`flex-1 pt-12 px-5 bg-white`}>
-      <Text style={tw`text-2xl font-bold mb-5 text-[#000000]`}>Profile</Text>
-
+      <Text style={tw`text-2xl font-bold mb-5 text-[#000000]`}>Profile Admin</Text>
       <View
         style={[
           tw`w-full items-center py-8 rounded-b-2xl`,
@@ -29,20 +28,8 @@ export default function ProfileScreen() {
         >
           <Icon name="person" size={40} color="#808080" />
         </View>
-        <Text style={tw`text-white text-2xl font-bold mb-1`}>ALDI AHMAD DANI</Text>
-        <Text style={tw`text-white text-lg italic`}>232410103074</Text>
+        <Text style={tw`text-white text-2xl font-bold mb-1`}>ADMIN</Text>
       </View>
-
-      <TouchableOpacity
-        style={[
-          tw`flex-row items-center p-4 rounded-xl w-full mt-5`,
-          { backgroundColor: '#F5F5F5', shadowColor: '#000', shadowOpacity: 0.1, shadowRadius: 5, elevation: 2 },
-        ]}
-      >
-        <Icon name="history" size={24} color="#000000" style={tw`mr-3`} />
-        <Text style={tw`text-lg text-[#000000] font-medium`}>Riwayat Laporan</Text>
-      </TouchableOpacity>
-
       <View style={tw`flex-1 justify-end items-center pb-10`}>
         <TouchableOpacity
           style={[

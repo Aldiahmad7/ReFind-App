@@ -11,9 +11,8 @@ export default function LoginScreen() {
   const [errorMessage, setErrorMessage] = useState('');
   const navigation = useNavigation();
 
-  // Tentukan email dan password admin
-  const adminEmail = "admin@example.com";   // Ganti dengan email admin yang valid di Firebase
-  const adminPassword = "adminpassword";    // Ganti dengan password admin yang valid di Firebase
+  const adminEmail = "admin@unej.id";
+  const adminPassword = "ADMIN123"; 
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -22,25 +21,20 @@ export default function LoginScreen() {
     }
 
     try {
-      // Autentikasi dengan Firebase
       await signInWithEmailAndPassword(auth, email, password);
 
-      // Periksa apakah email dan password cocok dengan akun admin
       if (email === adminEmail && password === adminPassword) {
-        navigation.navigate('AdminScreen'); // Arahkan ke halaman AdminScreen jika akun admin
+        navigation.navigate('AdminScreen'); 
       } else {
-        navigation.navigate('HomeTabs'); // Arahkan ke halaman HomeTabs jika akun pengguna biasa
+        navigation.navigate('HomeTabs');  
       }
 
       setErrorMessage('');
     } catch (error) {
-      // Tangani kesalahan login
-      if (
-        error.code === 'auth/invalid-email' ||
-        error.code === 'auth/invalid-credential' ||
-        error.code === 'auth/too-many-requests' ||
-        error.code === 'auth/wrong-password'
-      ) {
+      if (error.code === 'auth/invalid-email' ||
+          error.code === 'auth/invalid-credential' ||
+          error.code === 'auth/too-many-requests' ||
+          error.code === 'auth/wrong-password') {
         setErrorMessage('Email atau password salah');
       } else if (error.code === 'auth/user-not-found') {
         setErrorMessage('Pengguna tidak ditemukan');

@@ -11,12 +11,9 @@ export default function HomeScreen() {
 
   return (
     <View style={tw`flex-1 bg-white p-5`}>
-      {/* Header */}
       <View style={tw`flex-row justify-between items-center mb-8`}>
         <Text style={tw`text-2xl font-bold mt-7`}>Home</Text>
       </View>
-
-      {/* Welcome Card */}
       <View style={tw`bg-[#0F254F] p-5 rounded-3xl mb-12`}>
         <View style={tw`flex-row justify-between items-center`}>
           <View>
@@ -31,8 +28,6 @@ export default function HomeScreen() {
           />
         </View>
       </View>
-
-      {/* Report Section */}
       <Text style={tw`text-xl font-bold text-center mb-6`}>What Do You Want To Report?</Text>
 
       <View style={tw`flex-row flex-wrap justify-between px-4 space-y-6`}>
@@ -65,7 +60,6 @@ export default function HomeScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Modals */}
       <Modal isVisible={isLostModalVisible} onBackdropPress={() => setLostModalVisible(false)}>
         <LostItemForm onClose={() => setLostModalVisible(false)} />
       </Modal>

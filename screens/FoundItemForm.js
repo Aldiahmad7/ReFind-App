@@ -8,14 +8,12 @@ export default function LostItemForm({ onClose }) {
   const [locationFound, setLocationFound] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  // Function to handle form submission
   const handleSubmit = () => {
     if (!itemName || !itemDescription || !locationFound || !phoneNumber) {
       alert('ISI DULU KOCAG!!!');
     } else {
-      // Submit the data (example: log it to console)
       console.log({ itemName, itemDescription, locationFound, phoneNumber });
-      onClose();  // Close modal after submission
+      onClose(); 
     }
   };
 
@@ -54,7 +52,7 @@ export default function LostItemForm({ onClose }) {
 
       <TouchableOpacity
         style={tw`bg-green-500 p-3 rounded-xl flex justify-center items-center`}
-        onPress={handleSubmit}  // Call handleSubmit function on press
+        onPress={handleSubmit} 
       >
         <Text style={tw`text-white font-bold`}>SUBMIT</Text>
       </TouchableOpacity>

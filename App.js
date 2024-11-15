@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -6,6 +6,7 @@ import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import LoginScreen from './screens/LoginScreen';
+import AdminScreen from './screens/AdminScreen'; 
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -33,6 +34,8 @@ function HomeTabs() {
 }
 
 export default function App() {
+  const [userRole, setUserRole] = useState(null);
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
@@ -45,6 +48,11 @@ export default function App() {
           name="HomeTabs" 
           component={HomeTabs} 
           options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+          name="AdminScreen" 
+          component={AdminScreen} 
+          options={{ headerShown: false }} 
         />
       </Stack.Navigator>
     </NavigationContainer>
