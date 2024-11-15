@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/firebaseConfig';
+import tw from 'twrnc';  // Import twrnc untuk gaya
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -33,15 +34,15 @@ export default function LoginScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>ReFind</Text>
+    <View style={tw`flex-1 items-center justify-center bg-white p-5`}>
+      <Text style={tw`text-6xl font-bold text-[#0F254F] mb-12`}>ReFind</Text>
 
       {errorMessage ? (
-        <Text style={styles.errorText}>{errorMessage}</Text>
+        <Text style={tw`text-red-500 mb-4`}>{errorMessage}</Text>
       ) : null}
 
       <TextInput
-        style={styles.input}
+        style={tw`w-full h-12 border border-gray-300 rounded-lg px-4 mb-4`}
         placeholder="Email"
         keyboardType="email-address"
         value={email}
@@ -49,59 +50,19 @@ export default function LoginScreen() {
       />
 
       <TextInput
-        style={styles.input}
+        style={tw`w-full h-12 border border-gray-300 rounded-lg px-4 mb-4`}
         placeholder="Password"
         secureTextEntry
         value={password}
         onChangeText={(text) => setPassword(text)}
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
+      <TouchableOpacity
+        style={tw`w-full h-12 bg-[#0F254F] rounded-lg items-center justify-center mt-6`}
+        onPress={handleLogin}
+      >
+        <Text style={tw`text-white text-lg font-bold`}>Login</Text>
       </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 70,
-    fontWeight: 'bold',
-    marginBottom: 50,
-    color: '#0F254F',
-  },
-  input: {
-    width: '100%',
-    height: 50,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 15,
-    paddingHorizontal: 20,
-    marginBottom: 15,
-  },
-  button: {
-    width: '50%',
-    height: 40,
-    backgroundColor: '#0F254F',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 15,
-    marginTop: 30,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  errorText: {
-    color: 'red',
-    marginBottom: 10,
-  },
-});
