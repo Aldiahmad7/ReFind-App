@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/firebaseConfig';
@@ -35,6 +35,12 @@ export default function LoginScreen() {
 
   return (
     <View style={tw`flex-1 items-center justify-center bg-white p-5`}>
+      <Image
+        source={require('../assets/logo.png')} // Ganti dengan path logo Anda
+        style={tw`w-25 h-25 mb-5`} // Ukuran gambar logo
+        resizeMode="contain" // Menjaga proporsi gambar
+      />
+
       <Text style={tw`text-6xl font-bold text-[#0F254F] mb-12`}>ReFind</Text>
 
       {errorMessage ? (

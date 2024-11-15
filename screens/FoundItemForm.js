@@ -1,68 +1,39 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import tw from 'twrnc';
 
 export default function LostItemForm({ onClose }) {
   return (
-    <View style={styles.modalContent}>
-      <Text style={styles.header}>PENEMUAN</Text>
-      <TextInput style={styles.input} placeholder="Nama Barang" />
-      <TextInput style={styles.input} placeholder="Deskripsi Barang" />
-      <TextInput style={styles.input} placeholder="Lokasi Ditemukan" />
-      <TextInput style={styles.input} placeholder="No. HP" />
-      <TouchableOpacity style={styles.uploadButton}>
-        <Text style={styles.uploadButtonText}>Upload File</Text>
+    <View style={tw`bg-white p-5 rounded-xl`}>
+      <Text style={tw`text-xl font-bold text-center text-black mb-3`}>PENEMUAN</Text>
+      
+      <TextInput
+        style={tw`border border-gray-300 rounded-xl p-3 mb-3`}
+        placeholder="Nama Barang"
+      />
+      <TextInput
+        style={tw`border border-gray-300 rounded-xl p-3 mb-3`}
+        placeholder="Deskripsi Barang"
+      />
+      <TextInput
+        style={tw`border border-gray-300 rounded-xl p-3 mb-3`}
+        placeholder="Lokasi Ditemukan"
+      />
+      <TextInput
+        style={tw`border border-gray-300 rounded-xl p-3 mb-3`}
+        placeholder="No. HP"
+      />
+      
+      <TouchableOpacity style={tw`bg-gray-300 w-2/5 h-8 rounded-xl flex justify-center items-center mx-auto mb-5`}>
+        <Text style={tw`text-white font-bold`}>Upload File</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.submitButton} onPress={onClose}>
-        <Text style={styles.submitButtonText}>SUBMIT</Text>
+      
+      <TouchableOpacity
+        style={tw`bg-green-500 p-3 rounded-xl flex justify-center items-center`}
+        onPress={onClose}
+      >
+        <Text style={tw`text-white font-bold`}>SUBMIT</Text>
       </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  modalContent: {
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
-  },
-  header: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#000000',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  input: {
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 10,
-    marginBottom: 10,
-  },
-  uploadButton: {
-    backgroundColor: '#ccc',
-    width: '40%',
-    height: 33,
-    alignItems: 'center',
-    marginBottom: 20,
-    marginTop: 10,
-    left: 83,
-    borderRadius: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  uploadButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  submitButton: {
-    backgroundColor: '#4CAF50',
-    padding: 10,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  submitButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
-});
