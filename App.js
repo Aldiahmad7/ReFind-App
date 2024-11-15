@@ -13,7 +13,6 @@ const Stack = createStackNavigator();
 function HomeTabs() {
   return (
     <Tab.Navigator>
-      {}
       <Tab.Screen 
         name="Home" 
         component={HomeScreen} 
