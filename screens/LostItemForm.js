@@ -1,19 +1,46 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import tw from 'twrnc'; 
+import { View, Text, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import tw from 'twrnc';
 
 export default function LostItemForm({ onClose }) {
   const [itemName, setItemName] = useState('');
   const [itemDescription, setItemDescription] = useState('');
   const [locationLost, setLocationLost] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const pickImage = async () => {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      Alert.alert('Izin untuk mengakses galeri diperlukan!');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setSelectedImage(result.assets[0].uri);
+    }
+  };
 
   const handleSubmit = () => {
     if (!itemName || !itemDescription || !locationLost || !phoneNumber) {
       alert('ISI DULU KOCAG!!!');
     } else {
-      console.log({ itemName, itemDescription, locationLost, phoneNumber });
-      onClose(); 
+      console.log({
+        itemName,
+        itemDescription,
+        locationLost,
+        phoneNumber,
+        selectedImage,
+      });
+      onClose();
     }
   };
 
@@ -51,13 +78,21 @@ export default function LostItemForm({ onClose }) {
       
       <TouchableOpacity
         style={tw`bg-gray-400 w-2/5 h-8 rounded-lg justify-center items-center mb-5 mx-auto`}
+        onPress={pickImage}
       >
         <Text style={tw`text-white font-bold`}>Upload File</Text>
       </TouchableOpacity>
-      
+
+      {selectedImage && (
+        <Image
+          source={{ uri: selectedImage }}
+          style={tw`w-24 h-24 rounded-lg mx-auto`}
+        />
+      )}
+
       <TouchableOpacity
         style={tw`bg-green-500 py-2 rounded-lg items-center`}
-        onPress={handleSubmit} 
+        onPress={handleSubmit}
       >
         <Text style={tw`text-white font-bold`}>SUBMIT</Text>
       </TouchableOpacity>
