@@ -4,14 +4,13 @@ import Modal from 'react-native-modal';
 import LostItemForm from './LostItemForm';
 import FoundItemForm from './FoundItemForm';
 import tw from 'twrnc';
-import LottieView from 'lottie-react-native'; // Impor Lottie
+import LottieView from 'lottie-react-native';
 
 export default function HomeScreen() {
   const [isLostModalVisible, setLostModalVisible] = useState(false);
   const [isFoundModalVisible, setFoundModalVisible] = useState(false);
-  const scaleAnim = useRef(new Animated.Value(1)).current; // Animation for scaling
+  const scaleAnim = useRef(new Animated.Value(1)).current;
 
-  // Scale animation for the welcome card
   const startAnimation = () => {
     Animated.loop(
       Animated.sequence([
@@ -69,12 +68,12 @@ export default function HomeScreen() {
       <Text style={tw`text-xl font-bold text-center mb-6`}>What Do You Want To Report?</Text>
 
       {/* Action Buttons */}
-      <View style={tw`flex-row flex-wrap justify-between px-4 space-y-6`}>
+      <View style={tw`flex-row flex-wrap justify-between px-4`}>
         {/* Lost Item Button */}
         <TouchableOpacity
           style={[
             tw`bg-[#0F254F] w-33 h-33 rounded-3xl items-center justify-center p-4`,
-            { elevation: 5, shadowColor: '#000', shadowOpacity: 0.3, shadowRadius: 8 },
+            { elevation: 5, shadowColor: '#000', shadowOpacity: 0.3, shadowRadius: 8, marginBottom: 24 }, // Add margin here
           ]}
           onPress={() => setLostModalVisible(true)}
         >
@@ -92,7 +91,7 @@ export default function HomeScreen() {
         <TouchableOpacity
           style={[
             tw`bg-[#0F254F] w-33 h-33 rounded-3xl items-center justify-center p-4`,
-            { elevation: 5, shadowColor: '#000', shadowOpacity: 0.3, shadowRadius: 8 },
+            { elevation: 5, shadowColor: '#000', shadowOpacity: 0.3, shadowRadius: 8, marginBottom: 24 }, // Add margin here
           ]}
           onPress={() => setFoundModalVisible(true)}
         >
