@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { collection, addDoc } from 'firebase/firestore'
+import { db } from '../firebase/firebaseConfig'
 import tw from 'twrnc';
 
 export default function LostItemForm({ onClose }) {
@@ -29,20 +31,24 @@ export default function LostItemForm({ onClose }) {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(async () => {
     if (!itemName || !itemDescription || !locationLost || !phoneNumber) {
-      alert('ISI DULU KOCAG!!!');
-    } else {
-      console.log({
-        itemName,
-        itemDescription,
-        locationLost,
-        phoneNumber,
-        selectedImage,
-      });
-      onClose();
+      Alert.alert('Validation Error, Harap isi semua data');
+      return;
     }
-  };
+    try {
+      await addDoc(collection(db, 'users'), {
+        itemName: itemName.trim(),
+        itemDescription: itemDescription.trim(),
+        locationLost: locationLost.trim(),
+        phoneNumber: phoneNumber.trim(),
+      });
+      Alert.alert('succes', 'Data berhasil ditambahkan')
+    } catch (error){
+        console.error('error adding data : ', error);
+        Alert.alert("Error", "Terjadi kesalahan")
+    }
+  }, [itemName, itemDescription, locationLost, phoneNumber, onClose]);
 
   return (
     <View style={tw`bg-white p-5 rounded-xl`}>
