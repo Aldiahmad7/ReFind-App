@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { db } from '../firebase/firebaseConfig'
 import tw from 'twrnc';
 
 export default function LostItemForm({ onClose }) {
@@ -10,14 +11,24 @@ export default function LostItemForm({ onClose }) {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [selectedImage, setSelectedImage] = useState(null); // State untuk gambar
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(async () => {
     if (!itemName || !itemDescription || !locationFound || !phoneNumber) {
-      alert('ISI DULU KOCAG!!!');
-    } else {
-      console.log({ itemName, itemDescription, locationFound, phoneNumber, selectedImage });
-      onClose();
+      Alert.alert('Validation Error, Harap isi semua data');
+      return;
     }
-  };
+    try {
+      await addDoc(collection(db, 'Barang Ditemukan'), {
+        itemName: itemName.trim(),
+        itemDescription: itemDescription.trim(),
+        locationFound: locationFound.trim(),
+        phoneNumber: phoneNumber.trim(),
+      });
+      Alert.alert('succes', 'Data berhasil ditambahkan')
+    } catch (error){
+        console.error('error adding data : ', error);
+        Alert.alert("Error", "Terjadi kesalahan")
+    }
+  }, [itemName, itemDescription, locationFound, phoneNumber, onClose]);
 
   const pickImage = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();

@@ -37,7 +37,7 @@ export default function LostItemForm({ onClose }) {
       return;
     }
     try {
-      await addDoc(collection(db, 'users'), {
+      await addDoc(collection(db, 'Barang Hilang'), {
         itemName: itemName.trim(),
         itemDescription: itemDescription.trim(),
         locationLost: locationLost.trim(),
