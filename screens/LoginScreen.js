@@ -8,6 +8,7 @@ import tw from 'twrnc';
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false); // State untuk visibilitas password
   const [errorMessage, setErrorMessage] = useState('');
   const navigation = useNavigation();
 
@@ -64,13 +65,23 @@ export default function LoginScreen() {
         />
 
         <Text style={tw`text-gray-600 mb-2 text-base`}>Password</Text>
-        <TextInput
-          style={tw`w-full h-12 bg-gray-100 rounded-lg px-4 mb-4`}
-          placeholder="Masukkan password"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        />
+        <View style={tw`relative`}>
+          <TextInput
+            style={tw`w-full h-12 bg-gray-100 rounded-lg px-4 pr-12 mb-4`}
+            placeholder="Masukkan password"
+            secureTextEntry={!passwordVisible} // Tergantung state
+            value={password}
+            onChangeText={setPassword}
+          />
+          <TouchableOpacity
+            style={tw`absolute right-4 top-3`}
+            onPress={() => setPasswordVisible(!passwordVisible)}
+          >
+            <Text style={tw`text-gray-500 text-xl`}>
+              {passwordVisible ? "🙈" : "👁️"}
+            </Text>
+          </TouchableOpacity>
+        </View>
 
         <TouchableOpacity
           style={tw`w-full h-12 bg-[#0F254F] rounded-lg items-center justify-center`}
