@@ -1,19 +1,58 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, TouchableOpacity, FlatList, RefreshControl, TextInput } from 'react-native';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase/firebaseConfig';
 import tw from 'twrnc';
 
 export default function SearchScreen() {
   const [selectedMenu, setSelectedMenu] = useState('Kehilangan');
-  const lostItems = [
-    { id: '1', name: 'Dompet Hitam', description: 'Hilang di Mushola perpustakaan', reportedBy: 'Leonel Aldi' },
-    { id: '2', name: 'Kunci Motor', description: 'Hilang di ruang kelas B1 B2', reportedBy: 'Mykhailo Rafi' },
-  ];
+  const [penemuan, setPenemuan] = useState([]);
+  const [kehilangan, setKehilangan] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const foundItems = [
-    { id: '1', name: 'Kacamata', description: 'Ditemukan di kantin perpustakaan', reportedBy: 'Cristiano Rifqi' },
-    { id: '2', name: 'Hp Mito', description: 'Ditemukan di kantin Fasilkom', reportedBy: 'Erling Anap' },
-  ];
-  const dataToDisplay = selectedMenu === 'Kehilangan' ? lostItems : selectedMenu === 'Penemuan' ? foundItems : [];
+  const fetchPenemuan = useCallback(async () => {
+    try {
+      const querySnapshots = await getDocs(collection(db, 'Barang Ditemukan'));
+      const penemuanData = querySnapshots.docs.map((docSnap) => ({
+        id: docSnap.id,
+        ...docSnap.data(),
+      }));
+      setPenemuan(penemuanData);
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    }
+  }, []);
+
+  const fetchKehilangan = useCallback(async () => {
+    try {
+      const querySnapshots = await getDocs(collection(db, 'Barang Hilang'));
+      const kehilanganData = querySnapshots.docs.map((docSnap) => ({
+        id: docSnap.id,
+        ...docSnap.data(),
+      }));
+      setKehilangan(kehilanganData);
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchPenemuan();
+    fetchKehilangan();
+  }, [fetchPenemuan, fetchKehilangan]);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await Promise.all([fetchPenemuan(), fetchKehilangan()]);
+    setRefreshing(false);
+  }, [fetchPenemuan, fetchKehilangan]);
+
+  const dataToDisplay = selectedMenu === 'Penemuan' ? penemuan : kehilangan;
+
+  const filteredData = dataToDisplay.filter((item) =>
+    item.itemName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <View style={tw`flex-1 pt-12 px-5 bg-white`}>
@@ -47,16 +86,29 @@ export default function SearchScreen() {
         </TouchableOpacity>
       </View>
 
+      <TextInput
+        style={tw`border border-gray-300 rounded-xl p-3 mb-5`}
+        placeholder="Cari berdasarkan nama barang..."
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+      />
+
       <FlatList
-        data={dataToDisplay}
+        data={filteredData}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={tw`p-4 border-b border-gray-300`}>
-            <Text style={tw`text-lg font-bold`}>{item.name}</Text>
-            <Text style={tw`text-sm text-gray-600`}>{item.description}</Text>
-            <Text style={tw`text-xs text-gray-800 italic`}>Dilaporkan oleh: {item.reportedBy}</Text>
+            <Text style={tw`text-lg font-bold`}>{item.itemName}</Text>
+            <Text style={tw`text-sm text-gray-600`}>{item.itemDescription}</Text>
+            <Text style={tw`text-sm text-gray-600`}>
+              Lokasi: {selectedMenu === 'Penemuan' ? item.locationFound : item.locationLost}
+            </Text>
+            <Text style={tw`text-sm text-gray-600`}>No. HP: {item.phoneNumber}</Text>
           </View>
         )}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     </View>
   );

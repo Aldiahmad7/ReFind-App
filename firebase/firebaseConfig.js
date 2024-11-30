@@ -4,15 +4,14 @@ import { getFirestore } from "firebase/firestore";
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBDySzYgnju6FcxHay8XVV4eypdjrK0nqM",
-    authDomain: "projectrefind-de8dd.firebaseapp.com",
-    databaseURL: "https://projectrefind-de8dd-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "projectrefind-de8dd",
-    storageBucket: "projectrefind-de8dd.firebasestorage.app",
-    messagingSenderId: "497599745916",
-    appId: "1:497599745916:web:14ac3c7acee320e9b75ef9",
-    measurementId: "G-4BY86Y5TWK"
-  };  
+  apiKey: "AIzaSyBpz8AqtApEMQR_5QI0kmRNw4cPCji6I28",
+  authDomain: "firestore-crud-32268.firebaseapp.com",
+  projectId: "firestore-crud-32268",
+  storageBucket: "firestore-crud-32268.firebasestorage.app",
+  messagingSenderId: "200887706679",
+  appId: "1:200887706679:web:d86925c6684e4727380bb2",
+  measurementId: "G-6VH4J6G0MZ"
+};
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);

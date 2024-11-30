@@ -44,6 +44,7 @@ export default function LostItemForm({ onClose }) {
         phoneNumber: phoneNumber.trim(),
       });
       Alert.alert('succes', 'Data berhasil ditambahkan')
+      onClose();
     } catch (error){
         console.error('error adding data : ', error);
         Alert.alert("Error", "Terjadi kesalahan")

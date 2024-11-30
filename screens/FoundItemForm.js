@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
+import { collection, addDoc } from 'firebase/firestore';
 import * as ImagePicker from 'expo-image-picker';
 import { db } from '../firebase/firebaseConfig'
 import tw from 'twrnc';
@@ -24,6 +25,7 @@ export default function LostItemForm({ onClose }) {
         phoneNumber: phoneNumber.trim(),
       });
       Alert.alert('succes', 'Data berhasil ditambahkan')
+      onClose();
     } catch (error){
         console.error('error adding data : ', error);
         Alert.alert("Error", "Terjadi kesalahan")
