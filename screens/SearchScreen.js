@@ -1,8 +1,19 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, TouchableOpacity, FlatList, RefreshControl, TextInput } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  RefreshControl,
+  TextInput,
+  Modal,
+  Image,
+  Animated,
+} from 'react-native';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig';
 import tw from 'twrnc';
+import { Linking } from 'react-native';
 
 export default function SearchScreen() {
   const [selectedMenu, setSelectedMenu] = useState('Kehilangan');
@@ -10,6 +21,8 @@ export default function SearchScreen() {
   const [kehilangan, setKehilangan] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [fadeAnim] = useState(new Animated.Value(0)); // Animasi untuk modal
 
   const fetchPenemuan = useCallback(async () => {
     try {
@@ -54,8 +67,30 @@ export default function SearchScreen() {
     item.itemName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const handleWhatsApp = (phoneNumber) => {
+    const url = `https://wa.me/${phoneNumber}`;
+    Linking.openURL(url).catch((err) => console.error('Error opening WhatsApp:', err));
+  };
+
+  const openModal = (item) => {
+    setSelectedItem(item);
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const closeModal = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => setSelectedItem(null));
+  };
+
   return (
-    <View style={tw`flex-1 pt-12 px-5 bg-white`}>
+    <View style={tw`flex-1 pt-12 px-5 bg-gray-100`}>
       <Text style={tw`text-2xl font-bold mb-5`}>Search</Text>
 
       <View style={tw`flex-row h-10 w-52 mb-5 rounded-full bg-gray-200 overflow-hidden self-center`}>
@@ -97,19 +132,58 @@ export default function SearchScreen() {
         data={filteredData}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={tw`p-4 border-b border-gray-300`}>
+          <TouchableOpacity
+            style={tw`p-4 mb-4 bg-white rounded-xl shadow-lg`}
+            onPress={() => openModal(item)}
+          >
             <Text style={tw`text-lg font-bold`}>{item.itemName}</Text>
-            <Text style={tw`text-sm text-gray-600`}>{item.itemDescription}</Text>
-            <Text style={tw`text-sm text-gray-600`}>
+            <Text style={tw`italic text-sm text-gray-600`}>
               Lokasi: {selectedMenu === 'Penemuan' ? item.locationFound : item.locationLost}
             </Text>
-            <Text style={tw`text-sm text-gray-600`}>No. HP: {item.phoneNumber}</Text>
-          </View>
+          </TouchableOpacity>
         )}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       />
+
+      {/* Modal */}
+      {selectedItem && (
+        <Modal transparent visible={!!selectedItem} animationType="none">
+          <Animated.View
+            style={[
+              tw`flex-1 justify-center items-center bg-black bg-opacity-50`,
+              { opacity: fadeAnim },
+            ]}
+          >
+            <TouchableOpacity
+              style={tw`absolute top-0 left-0 right-0 bottom-0`}
+              onPress={closeModal}
+            />
+            <View style={tw`w-4/5 bg-white rounded-2xl p-5`}>
+              <Text style={tw`text-2xl font-bold mb-5 text-center text-[#000000]`}>
+                {selectedItem.itemName}
+              </Text>
+              <Text style={tw`text-base mb-5 text-center text-gray-700`}>
+                {selectedItem.itemDescription}
+              </Text>
+              <Text style={tw`italic font-bold text-sm text-gray-600`}>
+                Lokasi: {selectedMenu === 'Penemuan' ? selectedItem.locationFound : selectedItem.locationLost}
+              </Text>
+              <View style={tw`flex-row items-center justify-end`}>
+                <Text style={tw`text-sm font-bold mr-4 text-[#000000]`}>Hubungi:</Text>
+                <TouchableOpacity
+                  style={tw`w-10 h-10 bg-[#fff] rounded-full flex items-center justify-center`}
+                  onPress={() => handleWhatsApp(selectedItem.phoneNumber)}
+                >
+                  <Image
+                    source={require('../assets/whatsapp-icon.png')}
+                    style={tw`w-10 h-10`}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Animated.View>
+        </Modal>
+      )}
     </View>
   );
 }
