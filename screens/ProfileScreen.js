@@ -1,15 +1,48 @@
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import tw from 'twrnc';
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const user = auth().currentUser; // Dapatkan pengguna yang sedang login
+      if (user) {
+        const userRef = database().ref(`/users/${user.uid}`);
+        userRef.once('value').then((snapshot) => {
+          if (snapshot.exists()) {
+            setUserData(snapshot.val()); // Set data pengguna ke state
+          } else {
+            console.log('User data not found!');
+          }
+          setLoading(false);
+        });
+      } else {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleLogout = () => {
-    navigation.navigate('Login');
+    auth().signOut().then(() => {
+      navigation.navigate('Login');
+    });
   };
+
+  if (loading) {
+    return (
+      <View style={tw`flex-1 justify-center items-center`}>
+        <ActivityIndicator size="large" color="#0F254F" />
+      </View>
+    );
+  }
 
   return (
     <View style={tw`flex-1 pt-12 px-5 bg-white`}>
@@ -29,8 +62,12 @@ export default function ProfileScreen() {
         >
           <Icon name="person" size={40} color="#808080" />
         </View>
-        <Text style={tw`text-white text-2xl font-bold mb-1`}>ALDI AHMAD DANI</Text>
-        <Text style={tw`text-white text-lg italic`}>232410103074</Text>
+        <Text style={tw`text-white text-2xl font-bold mb-1`}>
+          {userData ? userData.nama.toUpperCase() : 'Nama Tidak Ditemukan'}
+        </Text>
+        <Text style={tw`text-white text-lg italic`}>
+          {userData ? userData.NIM : 'NIM Tidak Ditemukan'}
+        </Text>
       </View>
 
       <TouchableOpacity
