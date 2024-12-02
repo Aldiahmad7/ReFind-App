@@ -4,16 +4,17 @@ import { useNavigation } from '@react-navigation/native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/firebaseConfig';
 import tw from 'twrnc';
+import Icon from 'react-native-vector-icons/MaterialIcons'; 
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordVisible, setPasswordVisible] = useState(false); // State untuk visibilitas password
+  const [passwordVisible, setPasswordVisible] = useState(false); 
   const [errorMessage, setErrorMessage] = useState('');
   const navigation = useNavigation();
 
   const adminEmail = "admin@unej.id";
-  const adminPassword = "ADMIN123"; 
+  const adminPassword = "ADMIN123";
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -69,7 +70,7 @@ export default function LoginScreen() {
           <TextInput
             style={tw`w-full h-12 bg-gray-100 rounded-lg px-4 pr-12 mb-4`}
             placeholder="Masukkan password"
-            secureTextEntry={!passwordVisible} // Tergantung state
+            secureTextEntry={!passwordVisible} 
             value={password}
             onChangeText={setPassword}
           />
@@ -77,9 +78,11 @@ export default function LoginScreen() {
             style={tw`absolute right-4 top-3`}
             onPress={() => setPasswordVisible(!passwordVisible)}
           >
-            <Text style={tw`text-gray-500 text-xl`}>
-              {passwordVisible ? "🙈" : "👁️"}
-            </Text>
+            <Icon 
+              name={passwordVisible ? "visibility" : "visibility-off"} 
+              size={24} 
+              color="gray" 
+            />
           </TouchableOpacity>
         </View>
 

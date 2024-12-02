@@ -22,7 +22,7 @@ export default function SearchScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedItem, setSelectedItem] = useState(null);
-  const [fadeAnim] = useState(new Animated.Value(0)); // Animasi untuk modal
+  const [fadeAnim] = useState(new Animated.Value(0));
 
   const fetchPenemuan = useCallback(async () => {
     try {
@@ -143,6 +143,7 @@ export default function SearchScreen() {
           </TouchableOpacity>
         )}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        showsVerticalScrollIndicator={false}
       />
 
       {/* Modal */}

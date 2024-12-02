@@ -3,8 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons'; // Import Ionicons
-import tw from 'twrnc'; // Tailwind CSS for React Native
+import Icon from 'react-native-vector-icons/Ionicons'; 
+import tw from 'twrnc'; 
 
 import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
@@ -19,11 +19,11 @@ function HomeTabs() {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarStyle: tw`bg-[#0F254F] h-16 rounded-t-3xl shadow-md`, // Menghapus border-t-2 untuk menghilangkan garis biru
-        tabBarActiveTintColor: 'white', // Warna ikon aktif
-        tabBarInactiveTintColor: 'gray', // Warna ikon tidak aktif
-        tabBarLabelStyle: tw`text-sm font-medium`, // Ukuran label lebih kecil
-        tabBarIconStyle: tw`mt-1`, // Sedikit margin pada ikon
+        tabBarStyle: tw`bg-[#0F254F] h-16 rounded-t-3xl shadow-md`, 
+        tabBarActiveTintColor: 'white',
+        tabBarInactiveTintColor: 'gray', 
+        tabBarLabelStyle: tw`text-sm font-medium`, 
+        tabBarIconStyle: tw`mt-1`, 
       }}
     >
       <Tab.Screen
@@ -32,10 +32,10 @@ function HomeTabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <Icon name="home" size={size + 3} color={color} /> // Ukuran ikon sedikit lebih kecil
+            <Icon name="home" size={size + 3} color={color} /> 
           ),
           tabBarLabel: () => (
-            <Text style={tw`text-white text-sm font-medium`}>Home</Text> // Label dengan font lebih kecil
+            <Text style={tw`text-white text-sm font-medium`}>Home</Text> 
           ),
         }}
       />
@@ -45,10 +45,10 @@ function HomeTabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <Icon name="clipboard" size={size + 3} color={color} /> // Ukuran ikon sedikit lebih kecil
+            <Icon name="clipboard" size={size + 3} color={color} /> 
           ),
           tabBarLabel: () => (
-            <Text style={tw`text-white text-sm font-medium`}>Search</Text> // Label dengan font lebih kecil
+            <Text style={tw`text-white text-sm font-medium`}>Search</Text> 
           ),
         }}
       />
@@ -58,10 +58,10 @@ function HomeTabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <Icon name="person" size={size + 3} color={color} /> // Ukuran ikon sedikit lebih kecil
+            <Icon name="person" size={size + 3} color={color} /> 
           ),
           tabBarLabel: () => (
-            <Text style={tw`text-white text-sm font-medium`}>Profile</Text> // Label dengan font lebih kecil
+            <Text style={tw`text-white text-sm font-medium`}>Profile</Text> 
           ),
         }}
       />
