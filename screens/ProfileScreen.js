@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import auth from 'firebase/auth';
+import database from 'firebase/database';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import tw from 'twrnc';
 
@@ -11,24 +13,33 @@ export default function ProfileScreen() {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const user = auth().currentUser; // Dapatkan pengguna yang sedang login
-      if (user) {
-        const userRef = database().ref(`/users/${user.uid}`);
-        userRef.once('value').then((snapshot) => {
-          if (snapshot.exists()) {
-            setUserData(snapshot.val()); // Set data pengguna ke state
-          } else {
-            console.log('User data not found!');
-          }
+      try {
+        const user = auth().currentUser;
+        console.log('Current User:', user); // Debugging
+        if (user) {
+          const userRef = database().ref(`/users/${user.uid}`);
+          userRef.once('value').then((snapshot) => {
+            console.log('Snapshot:', snapshot.val()); // Debugging
+            if (snapshot.exists()) {
+              setUserData(snapshot.val());
+            } else {
+              console.log('User data not found!');
+            }
+            setLoading(false);
+          });
+        } else {
+          console.log('No user is logged in.');
           setLoading(false);
-        });
-      } else {
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
         setLoading(false);
       }
     };
-
+  
     fetchUserData();
   }, []);
+  
 
   const handleLogout = () => {
     auth().signOut().then(() => {
