@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
 import { collection, addDoc } from 'firebase/firestore';
 import * as ImagePicker from 'expo-image-picker';
-import { db } from '../firebase/firebaseConfig'
+import { dbFirestore } from '../firebase/firebaseConfig'
 import tw from 'twrnc';
 
 export default function LostItemForm({ onClose }) {
@@ -18,7 +18,7 @@ export default function LostItemForm({ onClose }) {
       return;
     }
     try {
-      await addDoc(collection(db, 'Barang Ditemukan'), {
+      await addDoc(collection(dbFirestore, 'Barang Ditemukan'), {
         itemName: itemName.trim(),
         itemDescription: itemDescription.trim(),
         locationFound: locationFound.trim(),
