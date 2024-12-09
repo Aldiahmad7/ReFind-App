@@ -3,9 +3,9 @@ import { View, Text, TouchableOpacity, FlatList, TextInput, RefreshControl, Moda
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import tw from 'twrnc';
-import { getDocs, collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
-import { db } from '../firebase/firebaseConfig';
 import AdminProfileScreen from './AdminProfileScreen';
+import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { dbFirestore } from '../firebase/firebaseConfig';
 
 const DataContext = createContext();
 
@@ -14,75 +14,65 @@ export function DataProvider({ children }) {
   const [penemuan, setPenemuan] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchData = useCallback(async () => {
+  const fetchKehilangan = useCallback(async () => {
     try {
-      const kehilanganSnap = await getDocs(collection(db, 'Barang Hilang'));
-      const penemuanSnap = await getDocs(collection(db, 'Barang Ditemukan'));
-
-      const kehilanganData = kehilanganSnap.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
+      const querySnapshots = await getDocs(collection(dbFirestore, 'Barang Hilang'));
+      const kehilanganData = querySnapshots.docs.map((docSnap) => ({
+        id: docSnap.id,
+        ...docSnap.data(),
       }));
-
-      const penemuanData = penemuanSnap.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
       setKehilangan(kehilanganData);
-      setPenemuan(penemuanData);
-      setLoading(false);
     } catch (error) {
-      console.error('Error fetching data: ', error);
-      setLoading(false);
+      console.error('Error fetching Kehilangan data: ', error);
     }
   }, []);
 
+  const fetchPenemuan = useCallback(async () => {
+    try {
+      const querySnapshots = await getDocs(collection(dbFirestore, 'Barang Ditemukan'));
+      const penemuanData = querySnapshots.docs.map((docSnap) => ({
+        id: docSnap.id,
+        ...docSnap.data(),
+      }));
+      setPenemuan(penemuanData);
+    } catch (error) {
+      console.error('Error fetching Penemuan data: ', error);
+    }
+  }, []);
+
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    await Promise.all([fetchKehilangan(), fetchPenemuan()]);
+    setLoading(false);
+  }, [fetchKehilangan, fetchPenemuan]);
+
   useEffect(() => {
-    const kehilanganRef = collection(db, 'Barang Hilang');
-    const penemuanRef = collection(db, 'Barang Ditemukan');
-
-    const unsubscribeKehilangan = onSnapshot(kehilanganRef, (snapshot) => {
-      const updatedKehilangan = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setKehilangan(updatedKehilangan);
-    });
-
-    const unsubscribePenemuan = onSnapshot(penemuanRef, (snapshot) => {
-      const updatedPenemuan = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setPenemuan(updatedPenemuan);
-    });
-
     fetchData();
-
-    return () => {
-      unsubscribeKehilangan();
-      unsubscribePenemuan();
-    };
   }, [fetchData]);
 
   const deleteReport = async (id, collectionName) => {
     try {
-      await deleteDoc(doc(db, collectionName, id));
+      await deleteDoc(doc(dbFirestore, collectionName, id));
+      
+      if (collectionName === 'Barang Hilang') {
+        setKehilangan((prev) => prev.filter((item) => item.id !== id));
+      } else {
+        setPenemuan((prev) => prev.filter((item) => item.id !== id));
+      }
       return true;
     } catch (error) {
-      console.error('Error deleting document: ', error);
+      console.error('Error menghapus laporan: ', error);
       return false;
     }
   };
 
   return (
-    <DataContext.Provider value={{
-      kehilangan,
-      penemuan,
-      loading,
-      fetchData,
-      deleteReport
+    <DataContext.Provider value={{ 
+      kehilangan, 
+      penemuan, 
+      loading, 
+      deleteReport,
+      fetchData 
     }}>
       {children}
     </DataContext.Provider>
@@ -90,17 +80,18 @@ export function DataProvider({ children }) {
 }
 
 function AdminHomeScreen() {
-  const { kehilangan, penemuan, loading, deleteReport } = useContext(DataContext);
-  const [selectedMenu, setSelectedMenu] = useState('Kehilangan'); 
+  const { kehilangan, penemuan, loading, deleteReport, fetchData } = useContext(DataContext);
+  const [selectedMenu, setSelectedMenu] = useState('Kehilangan');
   const [refreshing, setRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedItem, setSelectedItem] = useState(null);
-  const [fadeAnim] = useState(new Animated.Value(0)); 
+  const [fadeAnim] = useState(new Animated.Value(0));
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
+    await fetchData();
     setRefreshing(false);
-  }, []);
+  }, [fetchData]);
 
   const dataToDisplay = selectedMenu === 'Kehilangan' ? kehilangan : penemuan;
   const filteredData = dataToDisplay.filter((item) =>
@@ -109,7 +100,7 @@ function AdminHomeScreen() {
 
   const handleWhatsApp = (phoneNumber) => {
     const url = `https://wa.me/${phoneNumber}`;
-    Linking.openURL(url).catch((err) => console.error('Error opening WhatsApp:', err));
+    Linking.openURL(url).catch((err) => console.error('Error membuka WhatsApp:', err));
   };
 
   const openModal = (item) => {
@@ -263,8 +254,6 @@ function AdminHomeScreen() {
     </View>
   );
 }
-
-
 
 const Tab = createBottomTabNavigator();
 
