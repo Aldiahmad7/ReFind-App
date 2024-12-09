@@ -10,11 +10,11 @@ export default function LostItemForm({ onClose }) {
   const [itemDescription, setItemDescription] = useState('');
   const [locationFound, setLocationFound] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [selectedImage, setSelectedImage] = useState(null); // State untuk gambar
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const handleSubmit = useCallback(async () => {
     if (!itemName || !itemDescription || !locationFound || !phoneNumber) {
-      Alert.alert('Validation Error, Harap isi semua data');
+      Alert.alert('Harap isi semua data');
       return;
     }
     try {
@@ -24,7 +24,7 @@ export default function LostItemForm({ onClose }) {
         locationFound: locationFound.trim(),
         phoneNumber: phoneNumber.trim(),
       });
-      Alert.alert('succes', 'Data berhasil ditambahkan')
+      Alert.alert('Succes', 'Data berhasil ditambahkan')
       onClose();
     } catch (error){
         console.error('error adding data : ', error);

@@ -1,50 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import auth from 'firebase/auth';
-import database from 'firebase/database';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import tw from 'twrnc';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const user = auth().currentUser;
-        console.log('Current User:', user); // Debugging
-        if (user) {
-          const userRef = database().ref(`/users/${user.uid}`);
-          userRef.once('value').then((snapshot) => {
-            console.log('Snapshot:', snapshot.val()); // Debugging
-            if (snapshot.exists()) {
-              setUserData(snapshot.val());
-            } else {
-              console.log('User data not found!');
-            }
-            setLoading(false);
-          });
-        } else {
-          console.log('No user is logged in.');
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-        setLoading(false);
-      }
-    };
+  const [loading, setLoading] = useState(false);
   
-    fetchUserData();
-  }, []);
-  
-
   const handleLogout = () => {
-    auth().signOut().then(() => {
-      navigation.navigate('Login');
-    });
+    navigation.navigate('Login');
   };
 
   if (loading) {
@@ -56,7 +21,7 @@ export default function ProfileScreen() {
   }
 
   return (
-    <View style={tw`flex-1 pt-12 px-5 bg-white`}>
+    <View style={tw`flex-1 pt-12 px-5 bg-gray-100`}>
       <Text style={tw`text-2xl font-bold mb-5 text-[#000000]`}>Profile</Text>
 
       <View
@@ -73,12 +38,8 @@ export default function ProfileScreen() {
         >
           <Icon name="person" size={40} color="#808080" />
         </View>
-        <Text style={tw`text-white text-2xl font-bold mb-1`}>
-          {userData ? userData.nama.toUpperCase() : 'Nama Tidak Ditemukan'}
-        </Text>
-        <Text style={tw`text-white text-lg italic`}>
-          {userData ? userData.NIM : 'NIM Tidak Ditemukan'}
-        </Text>
+        <Text style={tw`text-white text-2xl font-bold mb-1`}>(nama)</Text>
+        <Text style={tw`text-white text-lg italic`}>(nim)</Text>
       </View>
 
       <TouchableOpacity

@@ -33,7 +33,7 @@ export default function LostItemForm({ onClose }) {
 
   const handleSubmit = useCallback(async () => {
     if (!itemName || !itemDescription || !locationLost || !phoneNumber) {
-      Alert.alert('Validation Error, Harap isi semua data');
+      Alert.alert('Harap isi semua data');
       return;
     }
     try {
@@ -43,7 +43,7 @@ export default function LostItemForm({ onClose }) {
         locationLost: locationLost.trim(),
         phoneNumber: phoneNumber.trim(),
       });
-      Alert.alert('succes', 'Data berhasil ditambahkan')
+      Alert.alert('Succes', 'Data berhasil ditambahkan')
       onClose();
     } catch (error){
         console.error('error adding data : ', error);

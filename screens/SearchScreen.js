@@ -146,7 +146,6 @@ export default function SearchScreen() {
         showsVerticalScrollIndicator={false}
       />
 
-      {/* Modal */}
       {selectedItem && (
         <Modal transparent visible={!!selectedItem} animationType="none">
           <Animated.View

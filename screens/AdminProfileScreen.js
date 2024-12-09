@@ -12,7 +12,7 @@ export default function AdminProfileScreen() {
   };
 
   return (
-    <View style={tw`flex-1 pt-12 px-5 bg-white`}>
+    <View style={tw`flex-1 pt-12 px-5 bg-gray-100`}>
       <Text style={tw`text-2xl font-bold mb-5 text-[#000000]`}>Profile Admin</Text>
       <View
         style={[

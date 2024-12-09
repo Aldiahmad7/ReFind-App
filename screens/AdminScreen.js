@@ -161,7 +161,7 @@ function AdminHomeScreen() {
   }
 
   return (
-    <View style={tw`flex-1 pt-12 px-5 bg-white`}>
+    <View style={tw`flex-1 pt-12 px-5 bg-gray-100`}>
       <Text style={tw`text-2xl font-bold mb-5`}>Admin</Text>
 
       <View style={tw`flex-row h-10 w-52 mb-5 rounded-full bg-gray-200 overflow-hidden self-center`}>

@@ -28,23 +28,20 @@ export default function HomeScreen() {
     ).start();
   };
 
-  // Start the animation as soon as the component mounts
   useEffect(() => {
     startAnimation();
-  }, []); // Empty dependency array to run it once on mount
+  }, []); 
 
   return (
     <View style={tw`flex-1 bg-gray-100 p-5`}>
-      {/* Header */}
       <View style={tw`flex-row justify-between items-center mb-8`}>
         <Text style={tw`text-2xl font-bold mt-7`}>Home</Text>
       </View>
 
-      {/* Welcome Card */}
       <Animated.View
         style={[
           tw`bg-[#0F254F] p-5 rounded-3xl mb-12 shadow-lg`,
-          { transform: [{ scale: scaleAnim }] }, // Apply scaling transformation
+          { transform: [{ scale: scaleAnim }] }, 
         ]}
       >
         <View style={tw`flex-row justify-between items-center`}>
@@ -54,22 +51,18 @@ export default function HomeScreen() {
             <Text style={tw`text-white text-base`}>Back to You"</Text>
           </View>
 
-          {/* Lottie Animation replacing the logo */}
           <LottieView
-            source={require('../assets/animation.json')} // Path to your Lottie animation file
+            source={require('../assets/animation.json')}
             autoPlay
             loop
-            style={tw`w-25 h-25`} // Lottie animation size
+            style={tw`w-25 h-25`} 
           />
         </View>
       </Animated.View>
 
-      {/* Action Title */}
       <Text style={tw`text-xl font-bold text-center mb-6`}>What Do You Want To Report?</Text>
 
-      {/* Action Buttons */}
       <View style={tw`flex-row flex-wrap justify-between px-4`}>
-        {/* Lost Item Button */}
         <TouchableOpacity
           style={[
             tw`bg-[#0F254F] w-33 h-33 rounded-3xl items-center justify-center p-4`,
@@ -87,7 +80,6 @@ export default function HomeScreen() {
           </View>
         </TouchableOpacity>
 
-        {/* Found Item Button */}
         <TouchableOpacity
           style={[
             tw`bg-[#0F254F] w-33 h-33 rounded-3xl items-center justify-center p-4`,
@@ -106,7 +98,6 @@ export default function HomeScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Lost Item Modal */}
       <Modal
         isVisible={isLostModalVisible}
         onBackdropPress={() => setLostModalVisible(false)}
@@ -117,7 +108,6 @@ export default function HomeScreen() {
         <LostItemForm onClose={() => setLostModalVisible(false)} />
       </Modal>
 
-      {/* Found Item Modal */}
       <Modal
         isVisible={isFoundModalVisible}
         onBackdropPress={() => setFoundModalVisible(false)}
