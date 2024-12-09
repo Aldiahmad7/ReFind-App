@@ -1,17 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import tw from 'twrnc';
 import { useNavigation } from '@react-navigation/native';
+import { getDatabase, ref, get } from 'firebase/database';
+import { auth } from '../firebase/firebaseConfig'
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [profileData, setProfileData] = useState({ name: '', nim: '' });
   
-  const handleLogout = () => {
-    navigation.navigate('Login');
+  // Fungsi untuk mengambil data profile dari Firebase Realtime Database
+  const fetchProfileData = async (uid) => {
+    try {
+      const db = getDatabase(); // Mendapatkan referensi ke database
+      const userRef = ref(db, 'users/' + uid); // Referensi ke data user berdasarkan UID
+      const snapshot = await get(userRef); // Ambil data dari database
+
+      if (snapshot.exists()) {
+        setProfileData({
+          name: snapshot.val().nama,
+          nim: snapshot.val().NIM,
+        });
+      } else {
+        console.log('No data available for this user.');
+      }
+    } catch (error) {
+      console.error('Error fetching profile data:', error);
+    } finally {
+      setLoading(false); // Set loading selesai setelah data diambil
+    }
   };
 
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      if (currentUser) {
+        fetchProfileData(currentUser.uid); // Ambil data menggunakan UID pengguna yang sedang login
+      } else {
+        navigation.navigate('Login'); // Navigasi jika tidak ada pengguna yang login
+      }
+    });
+
+    return unsubscribe; // Menghentikan listener saat komponen unmount
+  }, [navigation]);
+
+  // Menampilkan loading spinner saat data sedang dimuat
   if (loading) {
     return (
       <View style={tw`flex-1 justify-center items-center`}>
@@ -38,8 +72,8 @@ export default function ProfileScreen() {
         >
           <Icon name="person" size={40} color="#808080" />
         </View>
-        <Text style={tw`text-white text-2xl font-bold mb-1`}>(nama)</Text>
-        <Text style={tw`text-white text-lg italic`}>(nim)</Text>
+        <Text style={tw`text-white text-2xl font-bold mb-1`}>{profileData.name}</Text>
+        <Text style={tw`text-white text-lg italic`}>{profileData.nim}</Text>
       </View>
 
       <TouchableOpacity
@@ -47,6 +81,7 @@ export default function ProfileScreen() {
           tw`flex-row items-center p-4 rounded-xl w-full mt-5`,
           { backgroundColor: '#F5F5F5', shadowColor: '#000', shadowOpacity: 0.1, shadowRadius: 5, elevation: 2 },
         ]}
+        onPress={() => navigation.navigate('HistoryScreen')} // Ganti dengan navigasi yang sesuai
       >
         <Icon name="history" size={24} color="#000000" style={tw`mr-3`} />
         <Text style={tw`text-lg text-[#000000] font-medium`}>Riwayat Laporan</Text>
@@ -58,7 +93,10 @@ export default function ProfileScreen() {
             tw`w-36 h-10 rounded-xl justify-center items-center`,
             { backgroundColor: '#FF2626', shadowColor: '#000', shadowOpacity: 0.2, shadowRadius: 5, elevation: 3 },
           ]}
-          onPress={handleLogout}
+          onPress={() => {
+            auth.signOut(); // Logout user
+            navigation.navigate('Login');
+          }}
         >
           <Text style={tw`text-white text-lg font-bold`}>Logout</Text>
         </TouchableOpacity>

@@ -10,8 +10,8 @@ import {
   Image,
   Animated,
 } from 'react-native';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../firebase/firebaseConfig';
+import { collection, getDocs } from 'firebase/firestore';  // Untuk Firestore
+import { dbFirestore } from '../firebase/firebaseConfig'; 
 import tw from 'twrnc';
 import { Linking } from 'react-native';
 
@@ -26,27 +26,27 @@ export default function SearchScreen() {
 
   const fetchPenemuan = useCallback(async () => {
     try {
-      const querySnapshots = await getDocs(collection(db, 'Barang Ditemukan'));
+      const querySnapshots = await getDocs(collection(dbFirestore, 'Barang Ditemukan'));
       const penemuanData = querySnapshots.docs.map((docSnap) => ({
         id: docSnap.id,
         ...docSnap.data(),
       }));
       setPenemuan(penemuanData);
     } catch (error) {
-      console.error('Error fetching data: ', error);
+      console.error('Error fetching Penemuan data: ', error);
     }
   }, []);
 
   const fetchKehilangan = useCallback(async () => {
     try {
-      const querySnapshots = await getDocs(collection(db, 'Barang Hilang'));
+      const querySnapshots = await getDocs(collection(dbFirestore, 'Barang Hilang'));
       const kehilanganData = querySnapshots.docs.map((docSnap) => ({
         id: docSnap.id,
         ...docSnap.data(),
       }));
       setKehilangan(kehilanganData);
     } catch (error) {
-      console.error('Error fetching data: ', error);
+      console.error('Error fetching Kehilangan data: ', error);
     }
   }, []);
 
