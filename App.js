@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text } from 'react-native';
+import { Text } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'; 
 import tw from 'twrnc'; 
 
@@ -11,7 +11,7 @@ import SearchScreen from './screens/SearchScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import LoginScreen from './screens/LoginScreen';
 import AdminScreen from './screens/AdminScreen';
-import HistoryScreen from './screens/HistoryScreen'; // Impor HistoryScreen
+import HistoryScreen from './screens/HistoryScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -92,7 +92,7 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="HistoryScreen" // Tambahkan HistoryScreen ke dalam Stack
+          name="HistoryScreen"
           component={HistoryScreen}
           options={{ headerShown: false }}
         />

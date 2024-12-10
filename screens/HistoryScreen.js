@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, FlatList, TouchableOpacity, RefreshControl, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, RefreshControl, ActivityIndicator } from 'react-native';
 import { dbFirestore } from '../firebase/firebaseConfig';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { auth } from '../firebase/firebaseConfig';
@@ -15,13 +15,11 @@ export default function HistoryScreen() {
       const currentUser = auth.currentUser;
       if (!currentUser) return;
   
-      // Ambil data dari koleksi Barang Hilang
       const lostReportsQuery = query(
         collection(dbFirestore, 'Barang Hilang'),
         where('userEmail', '==', currentUser.email)
       );
   
-      // Ambil data dari koleksi Barang Ditemukan
       const foundReportsQuery = query(
         collection(dbFirestore, 'Barang Ditemukan'),
         where('userEmail', '==', currentUser.email)
@@ -32,11 +30,9 @@ export default function HistoryScreen() {
         getDocs(foundReportsQuery),
       ]);
   
-      // Gabungkan hasil dari kedua koleksi
       const lostReports = lostQuerySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       const foundReports = foundQuerySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   
-      // Gabungkan hasil laporan barang hilang dan ditemukan
       const allReports = [...lostReports, ...foundReports];
       setHistoryData(allReports);
     } catch (error) {

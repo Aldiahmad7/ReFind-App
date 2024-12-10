@@ -79,7 +79,7 @@ export default function ProfileScreen() {
           tw`flex-row items-center p-4 rounded-xl w-full mt-5`,
           { backgroundColor: '#F5F5F5', shadowColor: '#000', shadowOpacity: 0.1, shadowRadius: 5, elevation: 2 },
         ]}
-        onPress={() => navigation.navigate('HistoryScreen')} // Navigasi ke HistoryScreen
+        onPress={() => navigation.navigate('HistoryScreen')} 
       >
         <Icon name="history" size={24} color="#000000" style={tw`mr-3`} />
         <Text style={tw`text-lg text-[#000000] font-medium`}>Riwayat Laporan</Text>

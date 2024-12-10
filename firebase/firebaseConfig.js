@@ -1,12 +1,12 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getDatabase } from "firebase/database";  // Untuk Realtime Database
-import { getFirestore } from "firebase/firestore";  // Untuk Firestore
+import { getDatabase } from "firebase/database";  //realtime database
+import { getFirestore } from "firebase/firestore";  //firestore database
 
 const firebaseConfig = {
   apiKey: "AIzaSyBDySzYgnju6FcxHay8XVV4eypdjrK0nqM",
   authDomain: "projectrefind-de8dd.firebaseapp.com",
-  databaseURL: "https://projectrefind-de8dd-default-rtdb.asia-southeast1.firebasedatabase.app", // Realtime Database
+  databaseURL: "https://projectrefind-de8dd-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "projectrefind-de8dd",
   storageBucket: "projectrefind-de8dd.appspot.com", 
   messagingSenderId: "497599745916",
@@ -17,7 +17,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
-const dbRealtime = getDatabase(app); // Realtime Database
-const dbFirestore = getFirestore(app); // Firestore
+const dbRealtime = getDatabase(app); 
+const dbFirestore = getFirestore(app); 
 
 export { auth, dbRealtime, dbFirestore };

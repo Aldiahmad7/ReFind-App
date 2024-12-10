@@ -1,16 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  RefreshControl,
-  TextInput,
-  Modal,
-  Image,
-  Animated,
-} from 'react-native';
-import { collection, getDocs } from 'firebase/firestore';  // Untuk Firestore
+import {View,Text,TouchableOpacity,FlatList,RefreshControl,TextInput,Modal,Image,Animated,} from 'react-native';
+import { collection, getDocs } from 'firebase/firestore'; 
 import { dbFirestore } from '../firebase/firebaseConfig'; 
 import tw from 'twrnc';
 import { Linking } from 'react-native';

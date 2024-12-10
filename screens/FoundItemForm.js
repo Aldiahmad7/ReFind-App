@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { collection, addDoc } from 'firebase/firestore';
-import { dbFirestore, auth } from '../firebase/firebaseConfig'; // import auth untuk mendapatkan email pengguna
+import { dbFirestore, auth } from '../firebase/firebaseConfig';
 import tw from 'twrnc';
 
 export default function FoundItemForm({ onClose }) {
@@ -38,7 +38,7 @@ export default function FoundItemForm({ onClose }) {
       return;
     }
 
-    const user = auth.currentUser; // Mendapatkan pengguna yang sedang login
+    const user = auth.currentUser;
     if (!user) {
       Alert.alert('Pengguna belum login');
       return;
@@ -50,7 +50,7 @@ export default function FoundItemForm({ onClose }) {
         itemDescription: itemDescription.trim(),
         locationLost: locationLost.trim(),
         phoneNumber: phoneNumber.trim(),
-        userEmail: user.email, // Menyimpan email pengguna yang login
+        userEmail: user.email,
         timestamp: new Date(),
       });
       Alert.alert('Success', 'Data berhasil ditambahkan');

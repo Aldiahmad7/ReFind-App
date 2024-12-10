@@ -66,7 +66,7 @@ export default function HomeScreen() {
         <TouchableOpacity
           style={[
             tw`bg-[#0F254F] w-33 h-33 rounded-3xl items-center justify-center p-4`,
-            { elevation: 5, shadowColor: '#000', shadowOpacity: 0.3, shadowRadius: 8, marginBottom: 24 }, // Add margin here
+            { elevation: 5, shadowColor: '#000', shadowOpacity: 0.3, shadowRadius: 8, marginBottom: 24 }, 
           ]}
           onPress={() => setLostModalVisible(true)}
         >
@@ -83,7 +83,7 @@ export default function HomeScreen() {
         <TouchableOpacity
           style={[
             tw`bg-[#0F254F] w-33 h-33 rounded-3xl items-center justify-center p-4`,
-            { elevation: 5, shadowColor: '#000', shadowOpacity: 0.3, shadowRadius: 8, marginBottom: 24 }, // Add margin here
+            { elevation: 5, shadowColor: '#000', shadowOpacity: 0.3, shadowRadius: 8, marginBottom: 24 }, 
           ]}
           onPress={() => setFoundModalVisible(true)}
         >
