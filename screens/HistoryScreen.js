@@ -1,4 +1,3 @@
-// HistoryScreen.js
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, FlatList, TouchableOpacity, RefreshControl, ActivityIndicator } from 'react-native';
 import { dbFirestore } from '../firebase/firebaseConfig';
@@ -15,15 +14,31 @@ export default function HistoryScreen() {
     try {
       const currentUser = auth.currentUser;
       if (!currentUser) return;
-
-      const reportsQuery = query(
-        collection(dbFirestore, 'Barang Hilang'), // Fetch from both collections
+  
+      // Ambil data dari koleksi Barang Hilang
+      const lostReportsQuery = query(
+        collection(dbFirestore, 'Barang Hilang'),
         where('userEmail', '==', currentUser.email)
       );
-
-      const querySnapshot = await getDocs(reportsQuery);
-      const reports = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      setHistoryData(reports);
+  
+      // Ambil data dari koleksi Barang Ditemukan
+      const foundReportsQuery = query(
+        collection(dbFirestore, 'Barang Ditemukan'),
+        where('userEmail', '==', currentUser.email)
+      );
+  
+      const [lostQuerySnapshot, foundQuerySnapshot] = await Promise.all([
+        getDocs(lostReportsQuery),
+        getDocs(foundReportsQuery),
+      ]);
+  
+      // Gabungkan hasil dari kedua koleksi
+      const lostReports = lostQuerySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      const foundReports = foundQuerySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  
+      // Gabungkan hasil laporan barang hilang dan ditemukan
+      const allReports = [...lostReports, ...foundReports];
+      setHistoryData(allReports);
     } catch (error) {
       console.error('Error fetching history data: ', error);
     } finally {
