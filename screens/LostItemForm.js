@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { collection, addDoc } from 'firebase/firestore'
-import { dbFirestore } from '../firebase/firebaseConfig'
+import { collection, addDoc } from 'firebase/firestore';
+import { dbFirestore, auth } from '../firebase/firebaseConfig'; // import auth untuk mendapatkan email pengguna
 import tw from 'twrnc';
 
 export default function LostItemForm({ onClose }) {
@@ -36,53 +36,62 @@ export default function LostItemForm({ onClose }) {
       Alert.alert('Harap isi semua data');
       return;
     }
+
+    const user = auth.currentUser; // Mendapatkan pengguna yang sedang login
+    if (!user) {
+      Alert.alert('Pengguna belum login');
+      return;
+    }
+
     try {
       await addDoc(collection(dbFirestore, 'Barang Hilang'), {
         itemName: itemName.trim(),
         itemDescription: itemDescription.trim(),
         locationLost: locationLost.trim(),
         phoneNumber: phoneNumber.trim(),
+        userEmail: user.email, // Menyimpan email pengguna yang login
+        timestamp: new Date(),
       });
-      Alert.alert('Succes', 'Data berhasil ditambahkan')
+      Alert.alert('Success', 'Data berhasil ditambahkan');
       onClose();
-    } catch (error){
-        console.error('error adding data : ', error);
-        Alert.alert("Error", "Terjadi kesalahan")
+    } catch (error) {
+      console.error('Error adding data: ', error);
+      Alert.alert('Error', 'Terjadi kesalahan');
     }
   }, [itemName, itemDescription, locationLost, phoneNumber, onClose]);
 
   return (
     <View style={tw`bg-white p-5 rounded-xl`}>
       <Text style={tw`text-2xl font-bold text-center text-black mb-2`}>Form Kehilangan</Text>
-      
+
       <TextInput
         style={tw`border border-gray-300 rounded-lg p-3 mb-3`}
         placeholder="Nama Barang"
         value={itemName}
         onChangeText={setItemName}
       />
-      
+
       <TextInput
         style={tw`border border-gray-300 rounded-lg p-3 mb-3`}
         placeholder="Deskripsi Barang"
         value={itemDescription}
         onChangeText={setItemDescription}
       />
-      
+
       <TextInput
         style={tw`border border-gray-300 rounded-lg p-3 mb-3`}
         placeholder="Lokasi Terakhir"
         value={locationLost}
         onChangeText={setLocationLost}
       />
-      
+
       <TextInput
         style={tw`border border-gray-300 rounded-lg p-3 mb-3`}
         placeholder="No. HP"
         value={phoneNumber}
         onChangeText={setPhoneNumber}
       />
-      
+
       <TouchableOpacity
         style={tw`bg-gray-400 w-2/5 h-8 rounded-lg justify-center items-center mb-5 mx-auto`}
         onPress={pickImage}

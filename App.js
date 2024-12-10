@@ -11,6 +11,7 @@ import SearchScreen from './screens/SearchScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import LoginScreen from './screens/LoginScreen';
 import AdminScreen from './screens/AdminScreen';
+import HistoryScreen from './screens/HistoryScreen'; // Impor HistoryScreen
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -88,6 +89,11 @@ export default function App() {
         <Stack.Screen
           name="AdminScreen"
           component={AdminScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="HistoryScreen" // Tambahkan HistoryScreen ke dalam Stack
+          component={HistoryScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
