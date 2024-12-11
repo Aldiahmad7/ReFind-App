@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import {View,Text,TouchableOpacity,FlatList,RefreshControl,TextInput,Modal,Image,Animated,} from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, RefreshControl, TextInput, Modal, Image, Animated } from 'react-native';
 import { collection, getDocs } from 'firebase/firestore'; 
 import { dbFirestore } from '../firebase/firebaseConfig'; 
 import tw from 'twrnc';
@@ -123,13 +123,21 @@ export default function SearchScreen() {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
-            style={tw`p-4 mb-4 bg-white rounded-xl shadow-lg`}
+            style={[
+              tw`p-4 mb-4 rounded-xl shadow-lg`,
+              item.isCompleted ? tw`bg-green-100` : tw`bg-white`,
+            ]}
             onPress={() => openModal(item)}
           >
-            <Text style={tw`text-lg font-bold`}>{item.itemName}</Text>
+            <Text style={[tw`text-lg font-bold`, item.isCompleted && tw`text-green-600`]}>
+              {item.itemName}
+            </Text>
             <Text style={tw`italic text-sm text-gray-600`}>
               Lokasi: {selectedMenu === 'Penemuan' ? item.locationFound : item.locationLost}
             </Text>
+            {item.isCompleted && (
+              <Text style={tw`text-sm text-green-500 font-bold`}>Laporan Selesai</Text>
+            )}
           </TouchableOpacity>
         )}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}

@@ -194,15 +194,22 @@ function AdminHomeScreen() {
         data={filteredData}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={tw`flex-row items-center justify-between p-4 mb-4 bg-white rounded-xl shadow-lg`}>
+          <View style={[tw`flex-row items-center justify-between p-4 mb-4 bg-white rounded-xl shadow-lg`,
+            item.isCompleted ? tw`bg-green-100` : tw`bg-white`
+          ]}>
             <TouchableOpacity
               style={tw`flex-1`}
               onPress={() => openModal(item)}
             >
-              <Text style={tw`text-lg font-bold`}>{item.itemName}</Text>
+            <Text style={[tw`text-lg font-bold`, item.isCompleted && tw`text-green-600`]}>
+              {item.itemName}
+            </Text>
               <Text style={tw`italic text-sm text-gray-600`}>
                 Lokasi: {selectedMenu === 'Penemuan' ? item.locationFound : item.locationLost}
               </Text>
+              {item.isCompleted && (
+              <Text style={tw`text-sm text-green-500 font-bold`}>Laporan Selesai</Text>
+            )}
             </TouchableOpacity>
             <TouchableOpacity onPress={() => confirmDelete(item.id)}>
               <Icon name="trash-bin" size={24} color="red" />
