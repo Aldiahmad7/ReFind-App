@@ -16,13 +16,11 @@ export default function HistoryScreen() {
       const currentUser = auth.currentUser;
       if (!currentUser) return;
   
-      // Ambil data dari koleksi Barang Hilang
       const lostReportsQuery = query(
         collection(dbFirestore, 'Barang Hilang'),
         where('userEmail', '==', currentUser.email)
       );
   
-      // Ambil data dari koleksi Barang Ditemukan
       const foundReportsQuery = query(
         collection(dbFirestore, 'Barang Ditemukan'),
         where('userEmail', '==', currentUser.email)
@@ -33,7 +31,6 @@ export default function HistoryScreen() {
         getDocs(foundReportsQuery),
       ]);
   
-      // Gabungkan hasil dari kedua koleksi
       const lostReports = lostQuerySnapshot.docs.map((doc) => ({ 
         id: doc.id, 
         ...doc.data(),
@@ -45,7 +42,6 @@ export default function HistoryScreen() {
         collectionName: 'Barang Ditemukan'
       }));
   
-      // Gabungkan hasil laporan barang hilang dan ditemukan
       const allReports = [...lostReports, ...foundReports];
       setHistoryData(allReports);
     } catch (error) {
@@ -66,7 +62,6 @@ export default function HistoryScreen() {
   }, [fetchHistoryData]);
 
   const handleCompleteReport = async (item) => {
-    // Tampilkan konfirmasi dialog sebelum menandai laporan sebagai selesai
     Alert.alert(
       'Konfirmasi',
       'Apakah Anda yakin ingin menandai laporan ini sebagai selesai?',
@@ -81,12 +76,10 @@ export default function HistoryScreen() {
             try {
               const reportRef = doc(dbFirestore, item.collectionName, item.id);
               
-              // Update dokumen di Firestore
               await updateDoc(reportRef, {
                 isCompleted: true
               });
 
-              // Update state lokal
               setHistoryData(prevData => 
                 prevData.map(report => 
                   report.id === item.id 
