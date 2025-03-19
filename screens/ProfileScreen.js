@@ -82,7 +82,7 @@ export default function ProfileScreen() {
         onPress={() => navigation.navigate('HistoryScreen')} 
       >
         <Icon name="history" size={24} color="#000000" style={tw`mr-3`} />
-        <Text style={tw`text-lg text-[#000000] font-medium`}>Riwayat Laporan</Text>
+        <Text style={tw`text-lg text-[#000000] font-medium`}>History</Text>
       </TouchableOpacity>
 
       <View style={tw`flex-1 justify-end items-center pb-10`}>

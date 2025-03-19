@@ -24,15 +24,16 @@ export default function AdminProfileScreen() {
         <Text style={tw`text-white text-2xl font-bold mb-1`}>ADMIN</Text>
       </View>
       
-      <View
+      <TouchableOpacity
         style={[
-          tw`w-full px-5 py-4 rounded-2xl mt-5 flex-row items-center`,
-          { backgroundColor: '#FFFFFF', shadowColor: '#000', shadowOpacity: 0.1, shadowRadius: 3, elevation: 2 },
+          tw`flex-row items-center p-4 rounded-xl w-full mt-5`,
+          { backgroundColor: '#F5F5F5', shadowColor: '#000', shadowOpacity: 0.1, shadowRadius: 5, elevation: 2 },
         ]}
+        // onPress={() => navigation.navigate('HistoryScreen')} 
       >
-        <Icon name="history" size={30} color="#0F254F" style={tw`mr-3`} />
-        <Text style={tw`text-lg font-semibold text-[#0F254F]`}>Histori Deleted</Text>
-      </View>
+        <Icon name="history" size={24} color="#000000" style={tw`mr-3`} />
+        <Text style={tw`text-lg text-[#000000] font-medium`}>History Deleted</Text>
+      </TouchableOpacity>
       
       <View style={tw`flex-1 justify-end items-center pb-10`}>
         <TouchableOpacity
