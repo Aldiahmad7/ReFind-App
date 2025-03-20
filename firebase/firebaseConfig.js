@@ -4,14 +4,13 @@ import { getDatabase } from "firebase/database";  //realtime database
 import { getFirestore } from "firebase/firestore";  //firestore database
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBDySzYgnju6FcxHay8XVV4eypdjrK0nqM",
-  authDomain: "projectrefind-de8dd.firebaseapp.com",
-  databaseURL: "https://projectrefind-de8dd-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "projectrefind-de8dd",
-  storageBucket: "projectrefind-de8dd.appspot.com", 
-  messagingSenderId: "497599745916",
-  appId: "1:497599745916:web:14ac3c7acee320e9b75ef9",
-  measurementId: "G-4BY86Y5TWK",
+  apiKey: "AIzaSyAyLQ0L7fqSsnGrpOeTueS16lf0_e32urA",
+  authDomain: "refind-d36e7.firebaseapp.com",
+  projectId: "refind-d36e7",
+  storageBucket: "refind-d36e7.firebasestorage.app",
+  messagingSenderId: "568768289915",
+  appId: "1:568768289915:web:0b256fe8578fa54d6e56de",
+  measurementId: "G-Z1VX3GCKVD"
 };
 
 const app = initializeApp(firebaseConfig);
