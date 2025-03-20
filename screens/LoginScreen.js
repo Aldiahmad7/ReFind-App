@@ -14,7 +14,7 @@ export default function LoginScreen() {
   const navigation = useNavigation();
 
   const adminEmail = "admin@unej.id";
-  const adminPassword = "ADMIN123";
+  const adminPassword = "admin123";
 
   const handleLogin = async () => {
     if (!email || !password) {
