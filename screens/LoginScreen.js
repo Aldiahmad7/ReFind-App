@@ -22,15 +22,15 @@ export default function LoginScreen() {
       return;
     }
 
+    if (email === adminEmail && password === adminPassword) {
+      navigation.navigate('AdminScreen');
+      setErrorMessage('');
+      return;
+    }
+
     try {
       await signInWithEmailAndPassword(auth, email, password);
-
-      if (email === adminEmail && password === adminPassword) {
-        navigation.navigate('AdminScreen'); 
-      } else {
-        navigation.navigate('HomeTabs');  
-      }
-
+      navigation.navigate('HomeTabs');
       setErrorMessage('');
     } catch (error) {
       if (error.code === 'auth/invalid-email' ||
