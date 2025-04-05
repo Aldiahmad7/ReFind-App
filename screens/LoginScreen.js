@@ -96,6 +96,13 @@ export default function LoginScreen() {
         {errorMessage ? (
           <Text style={tw`text-red-500 text-center mt-4`}>{errorMessage}</Text>
         ) : null}
+        
+        <View style={tw`flex-row justify-center mt-4`}>
+          <Text style={tw`text-gray-600 mr-1`}>Belum punya akun?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('RegistrationScreen')}>
+            <Text style={tw`text-[#0F254F] font-semibold`}>Registrasi</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
