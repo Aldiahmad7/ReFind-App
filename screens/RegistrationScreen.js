@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, Image, ScrollView, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth, db } from '../firebase/firebaseConfig';
-import { doc, setDoc } from 'firebase/firestore';
+import { auth, dbRealtime } from '../firebase/firebaseConfig';
+import { ref, set } from 'firebase/database';
 import tw from 'twrnc';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -36,15 +36,23 @@ export default function RegistrationScreen() {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      await setDoc(doc(db, "users", user.uid), {
-        nama: nama,
-        nim: nim,
+      await set(ref(dbRealtime, 'users/' + user.uid), {
+        NIM: nim,
+        PASSWORD: password,
         email: email,
-        createdAt: new Date(),
-        role: "mahasiswa"
+        nama: nama,
       });
 
-      navigation.navigate('LoginScreen');
+      Alert.alert(
+        "Registrasi Berhasil",
+        "Akun Anda telah berhasil dibuat. Silakan login untuk melanjutkan.",
+        [
+          { 
+            text: "OK", 
+            onPress: () => navigation.navigate('Login') 
+          }
+        ]
+      );
       
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
